@@ -374,6 +374,38 @@ func (testApp *TestApp) generateToken(tenantID string, userID string, username s
 	return tokenString
 }
 
+func (testApp *TestApp) generatePartnerToken(tenantID string, tenantName string, usergroupIds []uuid.UUID, userID string, username string, name string, externalID string, externalIDType string, identityProviderID string, policyID string, scope []string, admin bool, partnerID string) string {
+	signBytes, _ := ioutil.ReadFile(testApp.application.Config.GetString("JWT_PRIVATE_KEY_PATH"))
+	jwtSecret, _ := jwt.ParseRSAPrivateKeyFromPEM(signBytes)
+	token := jwt.NewWithClaims(jwt.SigningMethodRS512, jwt.MapClaims{
+		"iss":                "http://isla.cyberinc.com",
+		"aud":                "http://isla.cyberinc.com",
+		"iat":                time.Now().Unix(),
+		"exp":                time.Now().Add(time.Minute * 60).Unix(), // Expires in 1 hour
+		"tenant":             tenantID,
+		"tenantName":         tenantName, ////
+		"user":               userID,
+		"usergroupIds":       usergroupIds, ///
+		"admin":              admin,
+		"name":               username,
+		"displayName":        name,
+		"scope":              scope,
+		"externalId":         externalID,
+		"externalIdType":     externalIDType,
+		"identityProvider":   "",
+		"identityProviderID": identityProviderID, //
+		"policyId":           policyID,           //
+		"partnerId":          partnerID,
+	})
+	tokenString, err := token.SignedString(jwtSecret)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return tokenString
+}
+
 func (testApp *TestApp) getReflectFieldValueAsString(fieldElem reflect.Value, fieldType reflect.Type) string {
 	var strValue string
 	if fieldElem.Kind() == reflect.Ptr {
