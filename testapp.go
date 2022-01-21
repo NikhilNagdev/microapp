@@ -374,7 +374,7 @@ func (testApp *TestApp) generateToken(tenantID string, userID string, username s
 	return tokenString
 }
 
-func (testApp *TestApp) generatePartnerToken(tenantID string, tenantName string, usergroupIds []uuid.UUID, userID string, username string, name string, externalID string, externalIDType string, identityProviderID string, policyID string, scope []string, admin bool, partnerID string) string {
+func (testApp *TestApp) GeneratePartnerToken(tenantID string, tenantName string, usergroupIds []uuid.UUID, userID string, username string, name string, externalID string, externalIDType string, identityProviderID string, policyID string, scope []string, admin bool, partnerID string) string {
 	signBytes, _ := ioutil.ReadFile(testApp.application.Config.GetString("JWT_PRIVATE_KEY_PATH"))
 	jwtSecret, _ := jwt.ParseRSAPrivateKeyFromPEM(signBytes)
 	token := jwt.NewWithClaims(jwt.SigningMethodRS512, jwt.MapClaims{
