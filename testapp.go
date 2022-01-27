@@ -387,11 +387,11 @@ func (testApp *TestApp) generatePartnerToken(tenantID string, tenantName string,
 		"iss":                "http://isla.cyberinc.com",
 		"aud":                "http://isla.cyberinc.com",
 		"iat":                time.Now().Unix(),
-		"exp":                time.Now().Add(time.Minute * 60).Unix(), // Expires in 1 hour
+		"exp":                time.Now().Add(time.Minute * 60).Unix(),
 		"tenant":             tenantID,
-		"tenantName":         tenantName, ////
+		"tenantName":         tenantName,
 		"user":               userID,
-		"usergroupIds":       usergroupIds, ///
+		"usergroupIds":       usergroupIds,
 		"admin":              admin,
 		"name":               username,
 		"displayName":        name,
@@ -399,8 +399,8 @@ func (testApp *TestApp) generatePartnerToken(tenantID string, tenantName string,
 		"externalId":         externalID,
 		"externalIdType":     externalIDType,
 		"identityProvider":   "",
-		"identityProviderID": identityProviderID, //
-		"policyId":           policyID,           //
+		"identityProviderID": identityProviderID,
+		"policyId":           policyID,
 		"partnerId":          partnerID,
 	})
 	tokenString, err := token.SignedString(jwtSecret)
